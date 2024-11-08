@@ -1,5 +1,5 @@
 import {resolveUserTasks, TasksComponent} from "../tasks/tasks.component";
-import {NewTaskComponent} from "../tasks/new-task/new-task.component";
+import {canLeaveEditPage, NewTaskComponent} from "../tasks/new-task/new-task.component";
 import {Routes} from "@angular/router";
 
 export const routes: Routes = [
@@ -11,13 +11,14 @@ export const routes: Routes = [
   {
     path: 'tasks',
     component: TasksComponent,
-    runGuardsAndResolvers: 'paramsOrQueryParamsChange',// will be used together with resolve to detect the query change
+    runGuardsAndResolvers: 'always',// will be used together with resolve to detect the query change, set to always to run resolver again
     resolve: {
       userTasks: resolveUserTasks
     }
   },
   {
     path: 'tasks/new',
-    component: NewTaskComponent
+    component: NewTaskComponent,
+    canDeactivate: [canLeaveEditPage]
   }
 ]
